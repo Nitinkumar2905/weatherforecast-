@@ -1,0 +1,13 @@
+@media (max-width: 1280px) {
+  #weather-output {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+@media (max-width:768px) {
+    #forecast-item{
+        display: flex;
+        flex-direction: column;
+    }
+}
