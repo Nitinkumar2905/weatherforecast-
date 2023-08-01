@@ -129,8 +129,6 @@ const WeatherData = () => {
               <div
                 className="m-3 p-4 rounded-4 d-flex flex-column"
                 style={{
-                  width: "30vw",
-                  height: "43vh",
                   border: "2px solid black",
                 }}
               >
