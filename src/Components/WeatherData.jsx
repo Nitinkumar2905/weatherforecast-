@@ -6,11 +6,12 @@ import {
   WiDayFog,
   WiBarometer,
   WiCloud,
+  WiSunrise,
+  WiSunset,
 } from "react-icons/wi";
 import "./Weather.css";
 import { v4 as uuidv4 } from "uuid";
-import loadingBar from './img/loading.gif'
-import loadingt from './img/loadingt.gif'
+import loadingt from "./img/loadingt.gif";
 
 const WeatherData = () => {
   const [info, setInfo] = useState({
@@ -54,7 +55,7 @@ const WeatherData = () => {
     const options = {
       method: "GET",
       headers: {
-        "X-RapidAPI-Key": '6df67ca40emsh54451cad843c528p17f8b9jsn4d9fa3d544e6',
+        "X-RapidAPI-Key": "6df67ca40emsh54451cad843c528p17f8b9jsn4d9fa3d544e6",
         "X-RapidAPI-Host": "weatherapi-com.p.rapidapi.com",
       },
     };
@@ -67,10 +68,13 @@ const WeatherData = () => {
         temp: data.current.temp_c,
         humidity: data.current.humidity,
         wind_speed: data.current.wind_kph,
-        visibility: data.current.vis_km,
+        vis: data.current.vis_km,
         pressure: data.current.pressure_mb,
         condition: data.current.condition.text,
         icon: data.current.condition.icon,
+        uv: data.current.uv,
+        wind_dir: data.current.wind_dir,
+        date: data.current.last_updated,
       });
       setWeatherForecastData(data.forecast.forecastday);
       console.log(data);
@@ -125,38 +129,56 @@ const WeatherData = () => {
           <div className="d-flex mt-2" id="weather-output">
             {/* output */}
             <div className="mt-5">
-              <div className="mx-4 mb-2 text-center">Today's weather</div>
+              <h5 className="mx-4 mb-2 text-center ">Today's weather</h5>
               <div
-                className="m-3 p-4 rounded-4 d-flex flex-column"
+                className="m-3 p-4 rounded-4 d-flex flex-column mx-auto bg-info text-dark"
                 style={{
+                  width: "fit-content",
                   border: "2px solid black",
                 }}
               >
                 {info.city && (
-                  <p className="">
+                  <span className="fw-bold mb-1">
                     Weather in {info.city}: {info.temp}°C
-                  </p>
+                  </span>
                 )}
+                <span className="mb-2">
+                  <span className="fw-bold">Date:</span> {info.date}
+                </span>
                 {info.icon ===
                 "//cdn.weatherapi.com/weather/64x64/day/113.png" ? (
                   <WiDaySunny size={32} />
                 ) : (
                   <WiDayFog size={32} />
                 )}
-                <span>
-                  <WiHumidity /> Humidity: {info.humidity}%
+                <span className="mb-1">
+                  <WiHumidity /> <span className="fw-bold"> Humidity:</span>{" "}
+                  {info.humidity}%
                 </span>
-                <span>
-                  <WiStrongWind /> Wind Speed: {info.wind_speed} kph
+                <span className="mb-1">
+                  <WiStrongWind /> <span className="fw-bold"> Wind Speed:</span>{" "}
+                  {info.wind_speed} kph
                 </span>
-                <span>
-                  <WiDayFog /> Visibility: {info.visiblity} km
+                <span className="mb-1">
+                  <WiDayFog /> <span className="fw-bold"> Visibility:</span>{" "}
+                  {info.vis} km
                 </span>
-                <span>
-                  <WiBarometer /> Pressure: {info.pressure} mb
+                <span className="mb-1">
+                  <WiBarometer /> <span className="fw-bold"> Pressure:</span>{" "}
+                  {info.pressure} mb
                 </span>
-                <span>
-                  <WiCloud /> Condition: {info.condition}
+                <span className="mb-1">
+                  <WiCloud /> <span className="fw-bold"> Condition:</span>{" "}
+                  {info.condition}
+                </span>
+                <span className="mb-1">
+                  {" "}
+                  <span className="fw-bold"> Uv Rays risk :</span> {info.uv}/10
+                </span>
+                <span className="mb-1">
+                  <WiStrongWind />{" "}
+                  <span className="fw-bold">Wind direction:</span>
+                  {info.wind_dir}
                 </span>
               </div>
             </div>
@@ -164,9 +186,9 @@ const WeatherData = () => {
             {/* Weather forecast for three days */}
             {weatherForecastData.length > 0 && (
               <div className="mt-5 mx-4 d-flex flex-column">
-                <div className="text-center">
+                <h5 className="text-center">
                   Weather forecast for next 3 days
-                </div>
+                </h5>
                 <div id="forecast-item" className="d-flex">
                   {weatherForecastData.map((forecast) => {
                     const key = uuidv4();
@@ -174,30 +196,69 @@ const WeatherData = () => {
                       <>
                         <div
                           key={key}
-                          className="p-4 rounded-4 d-flex flex-column m-3"
+                          className="bg-success p-4 rounded-4 d-flex flex-column m-3"
                           style={{
                             border: "2px solid black",
                           }}
                         >
-                          <p>Date: {forecast.date}</p>
+                          <span>
+                            <span className="fw-bold">Date:</span>{" "}
+                            {forecast.date}
+                          </span>
                           {forecast.day.condition.icon ===
                           "//cdn.weatherapi.com/weather/64x64/day/113.png" ? (
                             <WiDaySunny size={32} />
                           ) : (
                             <WiDayFog size={32} />
                           )}
-                          <p>Max Temp: {forecast.day.maxtemp_c}°C</p>
-                          <p>Min Temp: {forecast.day.mintemp_c}°C</p>
-                          <p>
-                            <WiHumidity /> Humidity: {forecast.day.avghumidity}%
-                          </p>
-                          <p>
-                            <WiStrongWind /> Wind Speed:{" "}
+                          <span className="mb-1">
+                            {" "}
+                            <span className="fw-bold">
+                              {" "}
+                              <WiCloud /> Condition:{" "}
+                            </span>{" "}
+                            {forecast.day.condition.text}
+                          </span>
+                          <span className="mb-1">
+                            {" "}
+                            <span className="fw-bold"> Max Temp: </span>{" "}
+                            {forecast.day.maxtemp_c}°C
+                          </span>
+                          <span className="mb-1">
+                            {" "}
+                            <span className="fw-bold">Min Temp: </span>{" "}
+                            {forecast.day.mintemp_c}°C
+                          </span>
+                          <span className="mb-1">
+                            <WiHumidity />{" "}
+                            <span className="fw-bold">Humidity: </span>{" "}
+                            {forecast.day.avghumidity}%
+                          </span>
+                          <span className="mb-1">
+                            <WiStrongWind />{" "}
+                            <span className="fw-bold">Wind Speed:</span>
                             {forecast.day.maxwind_kph} kph
-                          </p>
-                          <p>
-                            <WiDayFog /> Visibility: {forecast.day.avgvis_km} km
-                          </p>
+                          </span>
+                          <span className="mb-1">
+                            <WiDayFog />{" "}
+                            <span className="fw-bold">Visibility: </span>{" "}
+                            {forecast.day.avgvis_km} km
+                          </span>
+                          <span className="mb-1">
+                            {" "}
+                            <span className="fw-bold">
+                              <WiSunset /> Sunset:{" "}
+                            </span>{" "}
+                            {forecast.astro.sunset}
+                          </span>
+                          <span className="mb-1">
+                            {" "}
+                            <span className="fw-bold">
+                              {" "}
+                              <WiSunrise /> Sunrise:{" "}
+                            </span>{" "}
+                            {forecast.astro.sunrise}
+                          </span>
                         </div>
                       </>
                     );
@@ -209,7 +270,12 @@ const WeatherData = () => {
         </div>
       ) : (
         <div className="text-center">
-          <img src={loadingt} style={{width:'40px', height:'40px'}} className="bg-inherit" alt="" />
+          <img
+            src={loadingt}
+            style={{ width: "40px", height: "40px" }}
+            className="bg-inherit"
+            alt=""
+          />
         </div>
       )}
     </>

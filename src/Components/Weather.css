@@ -11,3 +11,24 @@
         flex-direction: column;
     }
 }
+
+/* Custom CSS for the weather table */
+.weather-table {
+  width: 100%;
+  margin-top: 20px;
+}
+
+.weather-table th,
+.weather-table td {
+  padding: 8px 12px;
+  text-align: center;
+}
+
+.weather-table th {
+  background-color: #f2f2f2;
+  font-weight: bold;
+}
+
+.weather-table tbody tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
