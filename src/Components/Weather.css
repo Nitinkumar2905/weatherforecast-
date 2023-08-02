@@ -32,3 +32,10 @@
 .weather-table tbody tr:nth-child(even) {
   background-color: #f2f2f2;
 }
+
+@media (max-width:400px) {
+  #search-bar{
+    display: flex;
+    flex-direction: column;
+  }
+}

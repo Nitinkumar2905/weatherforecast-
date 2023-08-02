@@ -1,0 +1,35 @@
+@media (max-width:540px) {
+    #navbar-weather{
+        display: flex;
+        flex-direction: row;
+        margin: 2rem 0rem;
+        align-items: center;
+        width: fit-content;
+    }
+
+    #main-nav{
+        margin-top: 1rem;
+        display: flex;
+        flex-direction: column;
+    }
+
+    #logo-text{
+        font-size: 1rem;
+        font-family: Arial, Helvetica, sans-serif;
+    }
+}
+
+@media (min-width:541px) {
+    #main-nav{
+        display: flex;
+        height: 8rem;
+        flex-direction: row;
+        align-items: center;
+        width: 100%;
+        margin-bottom:2rem ;
+    }
+
+    #logo-text{
+        font-size: 1.5rem;
+    }
+}
